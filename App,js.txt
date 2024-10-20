@@ -1,0 +1,61 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import './App.css';
+
+function App() {
+  const [stressLevel, setStressLevel] = useState('');
+  const [results, setResults] = useState(null);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!stressLevel) {
+      setError('Please enter your stress level');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/detect', { stressLevel });
+      setResults(response.data);
+      setError('');
+    } catch (err) {
+      console.error(err);
+      setError('Error connecting to the server.');
+    }
+  };
+
+  return (
+    <div className="App">
+      <h1>Mindz: Mental Health Detection</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="stressLevel">Enter Your Stress Level (1-10):</label>
+        <input
+          type="number"
+          id="stressLevel"
+          value={stressLevel}
+          onChange={(e) => setStressLevel(e.target.value)}
+          min="1"
+          max="10"
+          required
+        />
+        <button type="submit">Check</button>
+      </form>
+
+      {error && <p className="error">{error}</p>}
+
+      {results && (
+        <div className="results">
+          <h2>Possible Mental Health Conditions:</h2>
+          <ul>
+            {results.diseases.map((disease, index) => (
+              <li key={index}>{disease}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;

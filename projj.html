@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta ame="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeZoneHer - Women's Safety Website </title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    
+    <header>
+        <h1>IBM Z DATATHON PROJECT</h1>
+        <h2>-BYTE FOR BAIT(GAT32)</h2>
+        <h1>MINDZ-A MENTAL HEALTH DETECTION AND PREVENTION PLATFORM</h1>
+        <nav>
+            <ul>
+                <li><a href="#about"> About</a></li>
+                <li><a href="#helping resources"> Helping resources </a> </li>
+                <li><a href="#resources"> Resources</a> </li>
+                <li><a href="#details"> Details </a> </li>
+            </ul>
+        </nav>
+    </header>
+<style>
+    body{
+        background-color:black
+    }
+</style>
+
+    <section id="about">
+        <div>
+            <h2>About Mindz</h2>
+            <p>Mindz is a mental health enrichment and devolopment platform  that intends to highlight the importance of mental health and also create awareness of mental health diseases </p>
+           
+        </div>
+    </section>
+
+    <section id="helping resources">
+        <div>
+            <h2>Things that could help!</h2>
+            <ul>
+                <li>Try Visit the NMPH site</li>
+                <li>Try Online Therapy  </li>
+                <li>Stressed?Try talking to the chatbot he's fun!</li>
+             
+            </ul>
+        </div>
+    </section>
+
+    <section id="resources">
+        <div>
+            <h2>Click on these!</h2>
+            <ul>
+                <li><a href="https://www.nhm.gov.in/index1.php?lang=1&level=2&sublinkid=1043&lid=359">National mental health program</a></li>
+                <li><a href="https://heartitout.in/">Online therapy</a></li>
+                <li><a href="https://simsimi.com/">Emotional Chatbot</a></li>
+
+            </ul>
+        </div>
+    </section>
+
+    <section id="details">
+        <div class="container">
+            <h2>Enter ur details </h2>
+            <p>help us with this so that we can help you</p>
+    
+            <form id="mentalHealthForm">
+                <label for="sleep">Average sleep hours</label>
+                <select id="sleep" name="sleep">
+                    <option value="">Select Sleep hours</option>
+                    <option value="Good">less than 4hrs</option>
+                    <option value="Average">more than 5hrs</option>
+                    <option value="Poor">close to 8hrs of sleep</option>
+                </select>
+    
+                <label for="physicalActivity">Physical Activity:</label>
+                <select id="physicalActivity" name="physicalActivity">
+                    <option value="">Select Physical Activity Level</option>
+                    <option value="Active">Active</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+    
+                <label for="socialSupport">Average Screen Time</label>
+                <select id="socialSupport" name="socialSupport">
+                    <option value="">Select Screen Time</option>
+                    <option value="Strong">less than 5hrs</option>
+                    <option value="Moderate">5-7hrs</option>
+                    <option value="Weak">more than 8hrs</option>
+            </select>
+
+            <label for="stressLevel">Stress Level:</label>
+            <input type="number" id="stressLevel" name="stressLevel" placeholder="Enter Stress Level (bpm)" min="60" max="200">
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+  </section>
+    <script>
+    document.getElementById('mentalHealthForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const data = {
+            sleep: formData.get('sleep'),
+            physicalActivity: formData.get('physicalActivity'),
+            socialSupport: formData.get('socialSupport'),
+            stressLevel: formData.get('stressLevel')
+        };
+
+        // Send form data to the server
+        fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message + "\nPossible Condition: " + data.possibleCondition);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the form.');
+        });
+    });
+</script>
+
+    <footer>
+        <p>&copy; 2024 mindz - mental health website</p>
+    </footer>
+</body>
+</html>
